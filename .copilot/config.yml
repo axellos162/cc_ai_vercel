@@ -1,0 +1,22 @@
+# Copilot cloud-agent config for Metabob MCP
+# Fill in/adjust as needed
+version: 1
+agent:
+  runner: ubuntu-latest
+  preinstall:
+    packages:
+      - python3
+      - python3-pip
+      - nodejs
+      - npm
+  env:
+    # Recommended: store sensitive values in repo secrets and reference in workflows
+    METABOB_API_KEY: ${{ secrets.METABOB_API_KEY }}
+  scripts:
+    setup: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt || true
+      npm ci || true
+  notes: |
+    Replace the METABOB_API_KEY reference with the proper secret name used in your repository.
+    Adjust preinstall packages and runner as required by your project.

@@ -1,0 +1,45 @@
+name: Metabob MCP
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  metabob-mcp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          npm ci || true
+
+      - name: Run Metabob MCP check
+        env:
+          METABOB_API_KEY: ${{ secrets.METABOB_API_KEY }}
+        run: |
+          echo "Running Metabob MCP..."
+          # Replace the following with the actual Metabob MCP CLI command
+          # e.g.: metabob-mcp analyze --api-key "$METABOB_API_KEY" --repo . --output report.json
+
+      - name: Upload MCP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metabob-mcp-report
+          path: report.json
