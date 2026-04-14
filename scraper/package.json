@@ -1,0 +1,19 @@
+{
+  "name": "shopify-scraper",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shopify to Supabase scraper",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:shopify": "node src/test-shopify.js",
+    "test:enrichment": "node src/test-enrichment.js",
+    "test:sync": "node src/test-sync.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "picocolors": "^1.0.0",
+    "openai": "^4.24.1"
+  }
+}

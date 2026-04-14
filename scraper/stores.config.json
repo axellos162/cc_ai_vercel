@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Assembly New York",
+    "domain": "assemblynewyork.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7214,
+    "lng": -73.9860
+  },
+  {
+    "name": "ESSX NYC",
+    "domain": "essxnyc.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7209,
+    "lng": -73.9875
+  },
+  {
+    "name": "Base Store",
+    "domain": "basestore.co",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7543,
+    "lng": -73.9694
+  },
+  {
+    "name": "Blue In Green Soho",
+    "domain": "blueingreensoho.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7227,
+    "lng": -74.0028
+  },
+  {
+    "name": "IF SOHO NEW YORK",
+    "domain": "ifsohonewyork.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7217,
+    "lng": -74.0015
+  },
+  {
+    "name": "ELKEL",
+    "domain": "elkel.nyc",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7190,
+    "lng": -73.9953
+  }
+]
