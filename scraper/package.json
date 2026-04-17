@@ -6,9 +6,9 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test:shopify": "node src/test-shopify.js",
-    "test:enrichment": "node src/test-enrichment.js",
-    "test:sync": "node src/test-sync.js"
+    "test:shopify": "node scripts/test-shopify.js",
+    "test:enrichment": "node scripts/test-enrichment.js",
+    "test:sync": "node scripts/test-sync.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

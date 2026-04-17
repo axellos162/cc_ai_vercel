@@ -9,11 +9,11 @@ Fast reference for embedding generation commands.
 npm start
 
 # 2. Enrich brand metadata (optional, recommended)
-node src/enrich-brand-metadata.js
+node scripts/enrich-brand-metadata.js
 
 # 3. Generate brand embeddings (choose one mode)
-node src/generate-brand-embeddings.js          # Simple: product-based only
-node src/generate-brand-embeddings.js hybrid   # Hybrid: products + metadata
+node scripts/generate-brand-embeddings.js          # Simple: product-based only
+node scripts/generate-brand-embeddings.js hybrid   # Hybrid: products + metadata
 ```
 
 ---
@@ -34,7 +34,7 @@ node src/index.js --store "elkel.nyc"
 
 ### Enrich Brand Metadata
 ```bash
-node src/enrich-brand-metadata.js
+node scripts/enrich-brand-metadata.js
 ```
 - Adds: top categories, price segment, style description
 - Takes 5-15min depending on brand count
@@ -42,7 +42,7 @@ node src/enrich-brand-metadata.js
 
 ### Generate Brand Embeddings - Simple
 ```bash
-node src/generate-brand-embeddings.js
+node scripts/generate-brand-embeddings.js
 ```
 - Averages product embeddings only
 - Fast, no dependencies
@@ -50,7 +50,7 @@ node src/generate-brand-embeddings.js
 
 ### Generate Brand Embeddings - Hybrid
 ```bash
-node src/generate-brand-embeddings.js hybrid
+node scripts/generate-brand-embeddings.js hybrid
 ```
 - Combines products (70%) + metadata (30%)
 - Requires brand metadata enrichment first
@@ -101,10 +101,10 @@ node test-brand-similarity.js
 - Yes → Continue
 
 **Do you want richer brand matching?**
-- No → Run `node src/generate-brand-embeddings.js` (simple mode)
+- No → Run `node scripts/generate-brand-embeddings.js` (simple mode)
 - Yes → Run both:
-  1. `node src/enrich-brand-metadata.js`
-  2. `node src/generate-brand-embeddings.js hybrid`
+  1. `node scripts/enrich-brand-metadata.js`
+  2. `node scripts/generate-brand-embeddings.js hybrid`
 
 ---
 

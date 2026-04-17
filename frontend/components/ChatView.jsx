@@ -3,9 +3,12 @@
 import QueryInput from './QueryInput'
 import TurnBlock from './TurnBlock'
 import LoadingTurn from './LoadingTurn'
+import UserMenu from './auth/UserMenu'
 import { useEffect, useRef } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 
-export default function ChatView({ turns, onSubmit, onReset, isLoading, inputValue, setInputValue, pendingQuery, onSearchBrands }) {
+export default function ChatView({ turns, onSubmit, onReset, isLoading, inputValue, setInputValue, pendingQuery, onSearchBrands, onOpenProfile, onOpenHistory, onOpenFavorites, onOpenAuth }) {
+  const { user } = useAuth()
   const lastTurnRef = useRef(null)
 
   // Auto-scroll to the latest turn when turns change
@@ -29,7 +32,7 @@ export default function ChatView({ turns, onSubmit, onReset, isLoading, inputVal
             key={index}
             ref={index === turns.length - 1 && !isLoading ? lastTurnRef : null}
           >
-            <TurnBlock turn={turn} onSearchBrands={onSearchBrands} />
+            <TurnBlock turn={turn} onSearchBrands={onSearchBrands} onAuthRequired={onOpenAuth} />
           </div>
         ))}
         
@@ -46,8 +49,8 @@ export default function ChatView({ turns, onSubmit, onReset, isLoading, inputVal
         className="fixed bottom-0 left-0 right-0 border-t border-border-subtle"
         style={{
           padding: '20px 64px 20px',
-          background: '#111111',
-          boxShadow: '0 -1px 0 #2e2e2e, 0 -24px 48px rgba(0,0,0,0.7)'
+          background: 'var(--color-bg-base)',
+          boxShadow: '0 -1px 0 var(--color-border-subtle), 0 -24px 48px rgba(0,0,0,0.05)'
         }}
       >
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -74,15 +77,41 @@ export default function ChatView({ turns, onSubmit, onReset, isLoading, inputVal
               ← Home
             </button>
 
-            {/* App name label */}
-            <div
-              className="font-body text-text-tertiary"
-              style={{
-                fontSize: '10px',
-                letterSpacing: '0.15em'
-              }}
-            >
-              CONCEPT COMMERCE
+            {/* App name label and user menu/login */}
+            <div className="flex items-center gap-4">
+              <div
+                className="font-body text-text-tertiary"
+                style={{
+                  fontSize: '10px',
+                  letterSpacing: '0.15em'
+                }}
+              >
+                CONCEPT COMMERCE
+              </div>
+              {user ? (
+                <UserMenu
+                  onOpenProfile={onOpenProfile}
+                  onOpenHistory={onOpenHistory}
+                  onOpenFavorites={onOpenFavorites}
+                />
+              ) : (
+                <button
+                  onClick={onOpenAuth}
+                  className="font-body text-text-secondary hover:text-text-accent transition-colors"
+                  style={{
+                    fontSize: '10px',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    padding: '4px 12px',
+                    background: 'none',
+                    border: '1px solid var(--color-border-default)',
+                    cursor: 'pointer',
+                    transition: 'all var(--transition-base)'
+                  }}
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
 

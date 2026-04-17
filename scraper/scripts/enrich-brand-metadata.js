@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import OpenAI from 'openai';
-import { supabase } from './db.js';
-import { logger } from './logger.js';
+import { supabase } from '../src/db.js';
+import { logger } from '../src/logger.js';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

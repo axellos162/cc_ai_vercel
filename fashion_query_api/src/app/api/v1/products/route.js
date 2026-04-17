@@ -10,6 +10,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const brand = searchParams.get('brand');
     const storeName = searchParams.get('store');
+    const category = searchParams.get('category');
     const limit = parseInt(searchParams.get('limit') || '50', 10);
     
     // Validate inputs
@@ -44,7 +45,7 @@ export async function GET(request) {
       intent: INTENTS.PRODUCT_SEARCH,
       filters: {
         brand: brand,
-        category: null,
+        category: category || null,
         city: null,
         state: null,
         price_min: null,
@@ -52,7 +53,7 @@ export async function GET(request) {
         price_around: null
       },
       sort: 'relevance',
-      raw_query: brand
+      raw_query: `${brand} at ${storeName}${category ? ` (${category})` : ''}`
     };
     
     // Use existing search function

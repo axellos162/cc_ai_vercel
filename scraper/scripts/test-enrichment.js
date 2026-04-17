@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { inferProductMeta, upsertBrand } from './enrichment.js';
-import { logger } from './logger.js';
+import { inferProductMeta, upsertBrand } from '../src/enrichment.js';
+import { logger } from '../src/logger.js';
 
 async function testEnrichment() {
   try {

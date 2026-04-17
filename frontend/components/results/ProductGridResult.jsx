@@ -4,7 +4,7 @@ import { useState } from 'react'
 import ResultMeta from '../ResultMeta'
 import ProductCard from '../ProductCard'
 
-export default function ProductGridResult({ data, result }) {
+export default function ProductGridResult({ data, result, onAuthRequired }) {
   const products = data?.products || []
   const [visibleCount, setVisibleCount] = useState(12)
 
@@ -84,7 +84,7 @@ export default function ProductGridResult({ data, result }) {
             }}
           >
             {visibleProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} onAuthRequired={onAuthRequired} />
             ))}
           </div>
 

@@ -115,7 +115,7 @@ Enriches each brand with:
 
 ```bash
 # From the scraper directory
-node src/enrich-brand-metadata.js
+node scripts/enrich-brand-metadata.js
 ```
 
 **What Happens:**
@@ -203,10 +203,10 @@ brand_embedding = normalize((0.7 * avg_product_embedding) + (0.3 * metadata_embe
 
 ```bash
 # Simple mode (default) - averages product embeddings only
-node src/generate-brand-embeddings.js
+node scripts/generate-brand-embeddings.js
 
 # Hybrid mode - combines products (70%) + metadata (30%)
-node src/generate-brand-embeddings.js hybrid
+node scripts/generate-brand-embeddings.js hybrid
 ```
 
 **What Happens:**
@@ -280,7 +280,7 @@ Skipped: 0 brands (no products)
 ┌─────────────────────────────────────────────────────────────────┐
 │            STEP 2: ENRICH BRAND METADATA (Optional)              │
 │                                                                   │
-│  Run: node src/enrich-brand-metadata.js                          │
+│  Run: node scripts/enrich-brand-metadata.js                          │
 │                                                                   │
 │  For each brand:                                                 │
 │  1. Calculate category distribution                              │
@@ -300,7 +300,7 @@ Skipped: 0 brands (no products)
 ┌─────────────────────────────────────────────────────────────────┐
 │              STEP 3: GENERATE BRAND EMBEDDINGS                   │
 │                                                                   │
-│  Run: node src/generate-brand-embeddings.js [mode]               │
+│  Run: node scripts/generate-brand-embeddings.js [mode]               │
 │                                                                   │
 │  ┌──────────────┐         ┌──────────────┐                      │
 │  │ Simple Mode  │         │ Hybrid Mode  │                      │
@@ -459,7 +459,7 @@ SELECT count(*) FROM products WHERE brand_id = (SELECT id FROM brands WHERE name
 **Solution:** Regenerate brand embeddings:
 ```bash
 # Re-run to update with latest products
-node src/generate-brand-embeddings.js
+node scripts/generate-brand-embeddings.js
 ```
 
 ---
@@ -471,11 +471,11 @@ node src/generate-brand-embeddings.js
 npm start
 
 # 2. Enrich brand metadata (optional, but recommended for hybrid mode)
-node src/enrich-brand-metadata.js
+node scripts/enrich-brand-metadata.js
 
 # 3. Generate brand embeddings
-node src/generate-brand-embeddings.js          # Simple mode
-node src/generate-brand-embeddings.js hybrid   # Hybrid mode (requires step 2)
+node scripts/generate-brand-embeddings.js          # Simple mode
+node scripts/generate-brand-embeddings.js hybrid   # Hybrid mode (requires step 2)
 
 # 4. Test brand similarity
 cd ../fashion_query_api

@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.103.2",
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

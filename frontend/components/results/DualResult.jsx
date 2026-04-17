@@ -2,7 +2,7 @@ import ResultMeta from '../ResultMeta'
 import StoreMapResult from './StoreMapResult'
 import ProductGridResult from './ProductGridResult'
 
-export default function DualResult({ data, filters, result }) {
+export default function DualResult({ data, filters, result, onAuthRequired }) {
   const storeData = data?.store_map || {}
   const productData = data?.product_grid || {}
 
@@ -58,9 +58,10 @@ export default function DualResult({ data, filters, result }) {
           PRODUCTS
         </div>
         
-        <ProductGridResult 
-          data={productData} 
+        <ProductGridResult
+          data={productData}
           result={result}
+          onAuthRequired={onAuthRequired}
         />
       </div>
     </div>

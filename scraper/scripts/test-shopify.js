@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { fetchAllProducts, extractProductData } from './shopify.js';
-import { logger } from './logger.js';
+import { fetchAllProducts, extractProductData } from '../src/shopify.js';
+import { logger } from '../src/logger.js';
 
 async function testShopify() {
   try {

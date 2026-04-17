@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import { syncStore } from './sync.js';
-import { supabase } from './db.js';
-import { logger } from './logger.js';
+import { syncStore } from '../src/sync.js';
+import { supabase } from '../src/db.js';
+import { logger } from '../src/logger.js';
 import { readFile } from 'fs/promises';
 
 async function testSync() {

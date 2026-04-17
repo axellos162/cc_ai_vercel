@@ -4,7 +4,15 @@ import fs from 'fs';
 
 dotenv.config();
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Set them in the environment and avoid checking secrets into source control.');
+  process.exit(1);
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY); // service role used for DB migrations; ensure the key is kept secret
 
 async function runSqlUpdates() {
   console.log('🔧 RUNNING SQL UPDATES IN SUPABASE');
@@ -18,7 +26,7 @@ ALTER TABLE products
 ADD COLUMN IF NOT EXISTS url TEXT;
 `;
 
-const { error: error1 } = await supabase.rpc('exec', { sql: addColumnSQL }).catch(() => ({ error: null }));
+const { error: error1 } = await supabase.rpc('exec', { sql: addColumnSQL }).catch(err => ({ error: err }));
 
 if (error1) {
   console.log('  ⚠️  Note: Cannot execute via RPC. Please run manually:');
@@ -35,7 +43,7 @@ const addIndexSQL = `
 CREATE INDEX IF NOT EXISTS idx_products_url ON products(url);
 `;
 
-const { error: error2 } = await supabase.rpc('exec', { sql: addIndexSQL }).catch(() => ({ error: null }));
+const { error: error2 } = await supabase.rpc('exec', { sql: addIndexSQL }).catch(err => ({ error: err }));
 
 if (error2) {
   console.log('  ⚠️  Note: Cannot execute via RPC. Please run manually:');
@@ -50,7 +58,7 @@ if (error2) {
 console.log('Step 3: Updating match_products function...');
 const updateFunctionSQL = fs.readFileSync('/tmp/update_match_products.sql', 'utf8');
 
-const { error: error3 } = await supabase.rpc('exec', { sql: updateFunctionSQL }).catch(() => ({ error: null }));
+const { error: error3 } = await supabase.rpc('exec', { sql: updateFunctionSQL }).catch(err => ({ error: err }));
 
 if (error3) {
   console.log('  ⚠️  Cannot execute via RPC.');

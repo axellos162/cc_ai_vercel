@@ -53,21 +53,54 @@ function generateStoreFinderSummary(stores, filters = {}) {
 }
 
 export function shapeStoreMap(rawRows, filters = {}) {
-  const stores = rawRows.map(row => ({
-    id: `${row.store_id}-${row.brand_name}`,
-    name: row.store_name,
-    city: row.city,
-    state: row.state,
-    lat: row.lat,
-    lng: row.lng,
-    brand_name: row.brand_name,
-    product_count: row.product_count,
-    sample_images: row.sample_images
-  }));
-  
+  // Check if this is a favorites query (stores have favorite_brands_carried)
+  const isFavoritesQuery = rawRows.length > 0 &&
+    rawRows[0].favorite_brands_carried !== undefined;
+
+  let stores;
+  let summary;
+
+  if (isFavoritesQuery) {
+    // FAVORITES CASE: Pass through store data as-is (already has correct structure)
+    stores = rawRows.map(row => ({
+      id: row.id,
+      store_id: row.store_id,
+      name: row.name,
+      city: row.city,
+      state: row.state,
+      lat: row.lat,
+      lng: row.lng,
+      domain: row.domain,
+      favorite_brands_carried: row.favorite_brands_carried,
+      product_count: row.product_count,
+      sample_images: row.sample_images
+    }));
+
+    // Generate favorites-specific summary
+    const city = filters?.city || 'this area';
+    const totalBrands = new Set(
+      rawRows.flatMap(s => s.favorite_brands_carried || [])
+    ).size;
+    summary = `Found ${rawRows.length} store${rawRows.length !== 1 ? 's' : ''} carrying ${totalBrands} of your favorite brands in ${city}.`;
+  } else {
+    // SINGLE-BRAND CASE: Existing logic (reshape data)
+    stores = rawRows.map(row => ({
+      id: `${row.store_id}-${row.brand_name}`,
+      name: row.store_name,
+      city: row.city,
+      state: row.state,
+      lat: row.lat,
+      lng: row.lng,
+      brand_name: row.brand_name,
+      product_count: row.product_count,
+      sample_images: row.sample_images
+    }));
+    summary = generateStoreFinderSummary(stores, filters);
+  }
+
   return {
     stores,
-    summary: generateStoreFinderSummary(stores, filters)
+    summary
   };
 }
 

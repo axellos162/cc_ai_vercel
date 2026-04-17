@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { classifyQuery } from '../../../../services/classifier.js';
-import { searchProducts, findStores, compareProducts, searchSimilarProducts, searchSimilarBrands } from '../../../../services/search.js';
+import { searchProducts, findStores, findStoresByMultipleBrands, compareProducts, searchSimilarProducts, searchSimilarBrands } from '../../../../services/search.js';
 import {
   shapeProductGrid,
   shapeStoreMap,
@@ -14,6 +14,7 @@ import {
   buildErrorResponse
 } from '../../../../services/response.js';
 import { INTENTS, SORT_OPTIONS } from '../../../../lib/constants.js';
+import { saveSearchHistory, getUserFavoriteBrands } from '../../../../services/user.js';
 
 export async function POST(request) {
   let query = '';
@@ -93,11 +94,17 @@ export async function POST(request) {
     }
 
     const classifiedIntent = await classifyQuery(query, context);
-    
+
     if (body.sort) {
       classifiedIntent.sort = body.sort;
     }
-    
+
+    // Save search history if user_id is provided (fire-and-forget)
+    if (body.user_id) {
+      saveSearchHistory(body.user_id, query, classifiedIntent.intent, classifiedIntent.filters)
+        .catch(err => console.error('Failed to save search history:', err));
+    }
+
     let shapedData;
     let resultType;
     
@@ -144,6 +151,27 @@ export async function POST(request) {
       }
 
       case INTENTS.STORE_FINDER: {
+        // Check if query mentions favorites
+        const mentionsFavorites = /\b(my|favorite|favourite|fav|favs)\b/i.test(query);
+
+        if (mentionsFavorites && body.user_id) {
+          // Fetch user's favorite brands
+          const favBrands = await getUserFavoriteBrands(body.user_id);
+
+          if (favBrands.length > 0) {
+            // Use multi-brand search
+            const storeRows = await findStoresByMultipleBrands(classifiedIntent, favBrands);
+            shapedData = shapeStoreMap(storeRows, classifiedIntent.filters);
+            // Add metadata to indicate this is a favorite brands query
+            shapedData.favorite_brands_query = true;
+            shapedData.favorite_brands = favBrands;
+            resultType = 'store_map';
+            break;
+          }
+          // If user has no favorites, fall through to regular search
+        }
+
+        // Regular single-brand store search
         const storeRows = await findStores(classifiedIntent);
         shapedData = shapeStoreMap(storeRows, classifiedIntent.filters);
         resultType = 'store_map';
