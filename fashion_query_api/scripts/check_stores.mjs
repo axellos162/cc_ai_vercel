@@ -1,13 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Read .env.local
-const envContent = readFileSync(__dirname + '/.env.local', 'utf8');
+const envContent = await readFile(__dirname + '/.env.local', 'utf8');
 const env = {};
 envContent.split('\n').forEach(line => {
   const match = line.match(/^([^=]+)=(.*)$/);

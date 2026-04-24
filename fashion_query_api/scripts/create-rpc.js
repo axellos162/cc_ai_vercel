@@ -1,8 +1,8 @@
 import './src/load-env.js';
 import { supabase } from './src/lib/db.js';
-import fs from 'fs';
+import { readFile } from 'fs/promises';
 
-const sql = fs.readFileSync('/tmp/match_products.sql', 'utf8');
+const sql = await readFile('/tmp/match_products.sql', 'utf8');
 
 const { error } = await supabase.rpc('exec_sql', { sql_query: sql }).catch(async () => {
   // Try direct query if rpc doesn't exist

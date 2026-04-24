@@ -34,10 +34,19 @@ export async function updateSession(request) {
   )
 
   // Refresh session if expired (handle errors explicitly)
-  const { data: { user } = {}, error } = await supabase.auth.getUser()
-  if (error || !user) {
-    // No valid session; continue without throwing — middleware should not expose user data
-    return supabaseResponse
+  try {
+    const { data: { user } = {}, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Supabase auth.getUser error:', error);
+      return supabaseResponse;
+    }
+    if (!user) {
+      // No valid session; continue without exposing user data
+      return supabaseResponse;
+    }
+  } catch (err) {
+    console.error('Unexpected error retrieving Supabase user:', err);
+    return supabaseResponse;
   }
 
   return supabaseResponse

@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
-import fs from 'fs';
+import { readFile } from 'fs/promises';
 
 dotenv.config();
 
@@ -56,7 +56,7 @@ if (error2) {
 
 // Step 3: Update match_products function
 console.log('Step 3: Updating match_products function...');
-const updateFunctionSQL = fs.readFileSync('/tmp/update_match_products.sql', 'utf8');
+const updateFunctionSQL = await readFile('/tmp/update_match_products.sql', 'utf8');
 
 const { error: error3 } = await supabase.rpc('exec', { sql: updateFunctionSQL }).catch(err => ({ error: err }));
 
