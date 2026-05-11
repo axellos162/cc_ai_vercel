@@ -46,5 +46,37 @@
     "state": "NY",
     "lat": 40.7190,
     "lng": -73.9953
+  },
+  {
+    "name": "C'H'C'M",
+    "domain": "chcmshop.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7268,
+    "lng": -73.9925
+  },
+  {
+    "name": "LA GARÇONNE",
+    "domain": "lagarconne.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7204,
+    "lng": -74.0128
+  },
+  {
+    "name": "Cueva",
+    "domain": "cuevashop.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7333,
+    "lng": -74.0030
+  },
+  {
+    "name": "BLOK HILL",
+    "domain": "blokhill.com",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.6713,
+    "lng": -73.9776
   }
 ]
