@@ -60,15 +60,20 @@ export default function StoreSidebar({
 
           setSidebarProducts(allProducts)
         } else {
-          // SINGLE-BRAND CASE: Fetch products for specific brand at store
           const url = new URL('/api/v1/products', window.location.origin)
-          url.searchParams.set('brand', selectedStore.brand_name)
-          url.searchParams.set('store', selectedStore.name)
           url.searchParams.set('limit', '50')
 
-          // Pass category filter if it exists
           if (filters?.category) {
             url.searchParams.set('category', filters.category)
+          }
+
+          // Explore view stores have an id but no brand_name — use store_id path
+          if (selectedStore.id && !selectedStore.brand_name) {
+            url.searchParams.set('store_id', selectedStore.id)
+          } else {
+            // Chat result stores have brand_name — use brand + store vector search path
+            url.searchParams.set('brand', selectedStore.brand_name)
+            url.searchParams.set('store', selectedStore.name)
           }
 
           const res = await fetch(url.toString())
