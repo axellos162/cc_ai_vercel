@@ -38,7 +38,7 @@ export default function StoreSidebar({
         if (selectedStore.favorite_brands_carried && selectedStore.favorite_brands_carried.length > 0) {
           // FAVORITES CASE: Fetch products from each favorite brand in parallel
           const fetchPromises = selectedStore.favorite_brands_carried.map(brandName => {
-            const url = new URL('http://localhost:3001/api/v1/products')
+            const url = new URL('/api/v1/products', window.location.origin)
             url.searchParams.set('brand', brandName)
             url.searchParams.set('store', selectedStore.name)
             url.searchParams.set('limit', '50')
@@ -61,7 +61,7 @@ export default function StoreSidebar({
           setSidebarProducts(allProducts)
         } else {
           // SINGLE-BRAND CASE: Fetch products for specific brand at store
-          const url = new URL('http://localhost:3001/api/v1/products')
+          const url = new URL('/api/v1/products', window.location.origin)
           url.searchParams.set('brand', selectedStore.brand_name)
           url.searchParams.set('store', selectedStore.name)
           url.searchParams.set('limit', '50')

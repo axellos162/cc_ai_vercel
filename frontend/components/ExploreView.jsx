@@ -27,7 +27,7 @@ export default function ExploreView({
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/v1/cities')
+        const res = await fetch('/api/v1/cities')
         const data = await res.json()
 
         if (data.ok && data.cities) {
@@ -62,7 +62,7 @@ export default function ExploreView({
 
       try {
         const res = await fetch(
-          `http://localhost:3001/api/v1/stores?city=${encodeURIComponent(selectedCity.city)}&state=${encodeURIComponent(selectedCity.state)}`
+          `/api/v1/stores?city=${encodeURIComponent(selectedCity.city)}&state=${encodeURIComponent(selectedCity.state)}`
         )
         const data = await res.json()
 
